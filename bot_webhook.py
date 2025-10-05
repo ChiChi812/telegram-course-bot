@@ -11,7 +11,7 @@ from recommender import CourseRecommender, Course
 load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-DATA_PATH = (os.getenv("DATA_PATH", "C:/Users/Lenovo/OneDrive/Desktop/TelegramCourseBot/coursea_data.csv"))
+DATA_PATH = (os.getenv("DATA_PATH") or "coursea_data.csv").replace("\\", "/")
 
 app = Flask(__name__)
 application = Application.builder().token(BOT_TOKEN).build()
@@ -41,3 +41,4 @@ def webhook():
     update = Update.de_json(request.get_json(force=True), application.bot)
     application.update_queue.put_nowait(update)
     return "OK", 200
+
